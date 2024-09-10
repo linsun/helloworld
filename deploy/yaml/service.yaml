@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-stable
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: helloworld
+    version: stable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-canary
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: helloworld
+    version: canary

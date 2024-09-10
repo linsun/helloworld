@@ -1,3 +1,5 @@
+This repo is derived from the helloworld application in gitops-library repo from solo.io [repository](https://github.com/solo-io/gitops-library).
+
 # helloworld argo rollouts
 
 deploy helloworld argo rollout

@@ -36,15 +36,10 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
       trafficRouting:
-        istio:
-          virtualService:
-            name: helloworld-vsvc
-            routes:
-            - primary
-          destinationRule:
-            name: rollout-destrule    # required
-            canarySubsetName: canary  # required
-            stableSubsetName: stable  # required
+        plugins:
+          argoproj-labs/gatewayAPI:
+            httpRoute: helloworld-http-route
+            namespace: default
       steps:
       - setWeight: 20
       - pause: {duration: 30s}

@@ -3,50 +3,31 @@ kind: Gateway
 metadata:
   name: helloworld-gateway
 spec:
-  selector:
-    istio: ingressgateway # use istio default controller
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    port: 5000
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
-  name: helloworld-vsvc
+  name: helloworld-http-route
 spec:
-  gateways:
-  - helloworld-gateway
-  hosts:
-  - '*'
-  http:
-  - name: primary
-    match:
-    - uri:
-        exact: /hello
-    route:
-    - destination:
-        host: helloworld
-        port:
-          number: 5000
-        subset: stable  # referenced in canary.trafficRouting.istio.destinationRule.stableSubsetName
+  parentRefs:
+  - name: helloworld-gateway
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /hello
+  - backendRefs:
+    - name: helloworld-stable
+      port: 5000
       weight: 100
-    - destination:
-        host: helloworld
-        port:
-          number: 5000
-        subset: canary  # referenced in canary.trafficRouting.istio.destinationRule.canarySubsetName
+    - name: helloworld-canary
+      port: 5000
       weight: 0
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: rollout-destrule
-spec:
-  host: helloworld
-  subsets:
-  - name: canary
-  - name: stable

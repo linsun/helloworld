@@ -1,10 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: helloworld
-  labels:
+  name: argo-rollouts-stable-service
+  namespace: default
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
     app: helloworld
-    service: helloworld
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argo-rollouts-canary-service
+  namespace: default
 spec:
   ports:
   - port: 5000

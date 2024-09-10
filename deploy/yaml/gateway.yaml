@@ -1,4 +1,4 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: helloworld-gateway
@@ -15,7 +15,8 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: helloworld-http-route
+  name: argo-rollouts-http-route
+  namespace: default
 spec:
   parentRefs:
   - name: helloworld-gateway
@@ -25,9 +26,9 @@ spec:
         type: Exact
         value: /hello
   - backendRefs:
-    - name: helloworld-stable
+    - name: argo-rollouts-stable-service
+      kind: Service
       port: 5000
-      weight: 100
-    - name: helloworld-canary
+    - name: argo-rollouts-canary-service
+      kind: Service
       port: 5000
-      weight: 0

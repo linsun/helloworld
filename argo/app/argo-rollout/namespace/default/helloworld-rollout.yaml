@@ -17,3 +17,9 @@ spec:
     automated:
       prune: false
       selfHeal: false
+  ignoreDifferences:
+  - group: '*'
+    kind: '*'
+    managedFieldsManagers:
+    - kube-controller-manager
+    - rollouts-controller

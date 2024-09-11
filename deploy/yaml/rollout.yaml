@@ -18,7 +18,9 @@ spec:
         image: docker.io/istio/examples-helloworld-v1
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - name: HTTP
+          containerPort: 5000
+          protocol: TCP
         resources:
           requests:
             cpu: "100m"

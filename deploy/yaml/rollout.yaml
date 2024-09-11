@@ -26,6 +26,16 @@ spec:
     canary:
       canaryService: helloworld-canary-service # our created canary service
       stableService: helloworld-stable-service # our created stable service
+      prePromotionAnalysis:
+        templates:
+        - templateName: istio-success-rate
+        args:             # arguments allow AnalysisTemplates to be re-used
+        - name: service
+          value: helloworld-stable-service
+        - name: namespace
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
       analysis:
         startingStep: 1   # index of step list, of when to start this analysis
         templates:

@@ -2,8 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: helloworld
+  namespace: default
 spec:
-  replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -16,7 +16,7 @@ spec:
       containers:
       - name: helloworld
         image: docker.io/istio/examples-helloworld-v1
-        imagePullPolicy: IfNotPresent #Always
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         resources:
@@ -24,15 +24,15 @@ spec:
             cpu: "100m"
   strategy:
     canary:
-      canaryService: argo-rollouts-canary-service # our created canary service
-      stableService: argo-rollouts-stable-service # our created stable service
+      canaryService: helloworld-canary-service # our created canary service
+      stableService: helloworld-stable-service # our created stable service
       analysis:
         startingStep: 1   # index of step list, of when to start this analysis
         templates:
         - templateName: istio-success-rate
         args:             # arguments allow AnalysisTemplates to be re-used
         - name: service
-          value: helloworld
+          value: helloworld-canary-service
         - name: namespace
           valueFrom:
             fieldRef:

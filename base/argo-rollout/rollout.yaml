@@ -4,7 +4,6 @@ metadata:
   name: helloworld
   namespace: default
 spec:
-  replicas: 2
   revisionHistoryLimit: 2
   selector:
     matchLabels:
@@ -25,15 +24,15 @@ spec:
             cpu: "100m"
   strategy:
     canary:
-      canaryService: argo-rollouts-canary-service # our created canary service
-      stableService: argo-rollouts-stable-service # our created stable service
+      canaryService: helloworld-canary-service # our created canary service
+      stableService: helloworld-stable-service # our created stable service
       analysis:
         startingStep: 1   # index of step list, of when to start this analysis
         templates:
         - templateName: istio-success-rate
         args:             # arguments allow AnalysisTemplates to be re-used
         - name: service
-          value: helloworld
+          value: helloworld-canary-service
         - name: namespace
           valueFrom:
             fieldRef:

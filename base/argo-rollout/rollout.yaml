@@ -25,15 +25,15 @@ spec:
             cpu: "100m"
   strategy:
     canary:
-      canaryService: helloworld-canary-service # our created canary service
-      stableService: helloworld-stable-service # our created stable service
+      canaryService: helloworld-canary # our created canary service
+      stableService: helloworld-stable # our created stable service
       analysis:
         startingStep: 1   # index of step list, of when to start this analysis
         templates:
         - templateName: istio-success-rate
         args:             # arguments allow AnalysisTemplates to be re-used
         - name: service
-          value: helloworld-canary-service
+          value: helloworld-canary
         - name: namespace
           valueFrom:
             fieldRef:

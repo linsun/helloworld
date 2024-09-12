@@ -8,3 +8,6 @@ resources:
 - service.yaml
 - analysis.yaml
 - gateway.yaml
+
+transformers:
+- transformers/waypoint-label.yaml

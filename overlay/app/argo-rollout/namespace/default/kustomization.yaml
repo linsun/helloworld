@@ -8,7 +8,4 @@ resources:
 
 namespace: default
 
-transformers:
-- transformers/waypoint-label.yaml
-
 

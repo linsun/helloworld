@@ -8,7 +8,7 @@ resources:
 - service.yaml
 - analysis.yaml
 - gateway.yaml
-- ns.yaml
+# - ns.yaml
 
 transformers:
 - transformers/waypoint-label.yaml
